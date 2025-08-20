@@ -1,0 +1,12 @@
+
+create database Hospital;
+
+use Hospital;
+
+create table Departaments
+(
+ID Int identity not null primary key, 
+Building int not null check (Building between 1 and 5),
+Financing money not null check(Financing >= 0 ),
+Name nvarchar(100)NOT NULL check(Name <> '')Unique
+),
