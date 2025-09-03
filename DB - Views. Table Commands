@@ -1,0 +1,95 @@
+create database [Musica];
+use [Musica] 
+create table country
+(
+ [ID] int not null primary key identity,
+ [Name] nvarchar(100) not null unique,
+)
+create table publisher
+(
+[ID] int not null primary key identity,
+[Name] nvarchar(100) not null unique,
+[CoutryID]int not null references country(ID),
+)
+create table style
+(
+[ID] int not null primary key identity,
+[Name] nvarchar(100) not null unique ,
+) 
+create table Performer
+(
+[ID] int not null primary key identity,
+[Name] nvarchar(100) not null ,
+[Surname]nvarchar(100) not null,
+)
+create table AudioDisk
+(
+[ID]int not null primary key identity ,
+[Name] nvarchar(100) not null unique,
+[PerformerID]int not null references Performer(ID),
+[PublisherID]int not null references Publisher(ID),
+[StyleID]int not null references Style(ID),
+[DateOfRealease]date not null ,
+)
+create table songs
+(
+[ID]int not null primary key identity,
+[Name] nvarchar(100) not null unique,
+[AudioDiskID]int not null references  AudioDisk(ID),
+)
+insert into country (Name) values ('Canada');
+insert into country (Name) values ('Palestinian Territory');
+insert into country (Name) values ('Greece');
+insert into country (Name) values ('France');
+insert into country (Name) values ('Sweden');
+insert into country (Name) values ('Madagascar');
+insert into country (Name) values ('Philippines');
+insert into country (Name) values ('Poland');
+insert into country (Name) values ('Czech Republic');
+insert into country (Name) values ('Indonesia');
+insert into country (Name) values ('China');
+insert into country (Name) values ('Brazil');
+insert into country (Name) values ('Thailand');
+insert into country (Name) values ('Portugal');
+
+insert into publisher (Name, CountryID) values ('Alma', 7);
+insert into publisher (Name, CountryID) values ('Saree', 9);
+insert into publisher (Name, CountryID) values ('Sayre', 5);
+insert into publisher (Name, CountryID) values ('Tallia', 6);
+insert into publisher (Name, CountryID) values ('Zoe', 12);
+insert into publisher (Name, CountryID) values ('Trish', 5);
+insert into publisher (Name, CountryID) values ('Ilysa', 5);
+insert into publisher (Name, CountryID) values ('Rosalind', 5);
+insert into publisher (Name, CountryID) values ('Friederike', 6);
+insert into publisher (Name, CountryID) values ('Annadiana', 10);
+insert into publisher (Name, CountryID) values ('Darrelle', 14);
+insert into publisher (Name, CountryID) values ('Terrye', 1);
+insert into publisher (Name, CountryID) values ('Sharity', 1);
+insert into publisher (Name, CountryID) values ('Cathlene', 8);
+insert into publisher (Name, CountryID) values ('Tiffanie', 13);
+insert into publisher (Name, CountryID) values ('Toma', 3);
+insert into publisher (Name, CountryID) values ('L;urette', 11);
+insert into publisher (Name, CountryID) values ('Bridie', 3);
+insert into publisher (Name, CountryID) values ('Belia', 3);
+insert into publisher (Name, CountryID) values ('Sydelle', 8);
+
+insert into style (Name) values ('Elonore');
+insert into style (Name) values ('Gilli');
+insert into style (Name) values ('Bernadina');
+insert into style (Name) values ('Jannel');
+insert into style (Name) values ('Binni');
+insert into style (Name) values ('Charita');
+insert into style (Name) values ('Kerry');
+insert into style (Name) values ('Carlynn');
+insert into style (Name) values ('George');
+insert into style (Name) values ('Berni');
+insert into style (Name) values ('Bari');
+insert into style (Name) values ('Adan');
+insert into style (Name) values ('Terrie');
+insert into style (Name) values ('Oriana');
+insert into style (Name) values ('Ilyssa');
+insert into style (Name) values ('Mildrid');
+insert into style (Name) values ('Olivette');
+insert into style (Name) values ('Isabella');
+insert into style (Name) values ('Linda');
+insert into style (Name) values ('Cathleen');
