@@ -1,0 +1,63 @@
+use [master];
+go
+
+if db_id('Hospital') is not null
+begin
+	drop database [Hospital];
+end
+go
+
+create database [Hospital];
+go
+
+use [Hospital];
+go
+
+create table [Departments]
+(
+	[Id] int not null identity(1, 1) primary key,
+	[Building] int not null check ([Building] between 1 and 5),
+	[Financing] money not null check ([Financing] >= 0.0) default 0.0,
+	[Floor] int not null check ([Floor] >= 1),
+	[Name] nvarchar(100) not null unique check ([Name] <> N'')
+);
+go
+
+create table [Diseases]
+(
+	[Id] int not null identity(1, 1) primary key,
+	[Name] nvarchar(100) not null unique check ([Name] <> N''),
+	[Severity] int not null check ([Severity] >= 1) default 1
+);
+go
+
+create table [Doctors]
+(
+	[Id] int not null identity(1, 1) primary key,
+	[Name] nvarchar(max) not null check ([Name] <> N''),
+	[Phone] char(10) null,
+	[Premium] money not null check ([Premium] >= 0.0) default 0.0,
+	[Salary] money not null check ([Salary] > 0.0),
+	[Surname] nvarchar(max) not null check ([Surname] <> N'')
+);
+go
+
+create table [Examinations]
+(
+	[Id] int not null identity(1, 1) primary key,
+	[DayOfWeek] int not null check ([DayOfWeek] between 1 and 7),
+	[EndTime] time not null,
+	[Name] nvarchar(100) not null unique check([Name] <> N''),
+	[StartTime] time not null check ([StartTime] between '08:00' and '18:00'),
+	check ([StartTime] < [EndTime])
+);
+go
+
+create table [Wards]
+(
+	[Id] int not null identity(1, 1) primary key,
+	[Building] int not null check ([Building] between 1 and 5),
+	[Floor] int not null check ([Floor] >= 1),
+	[Name] nvarchar(20) not null unique check([Name] <> N'')
+);
+go
