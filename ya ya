@@ -1,0 +1,105 @@
+use [master];
+go
+
+if db_id('Hospital') is not null
+begin
+	drop database [Hospital];
+end
+go
+
+create database [Hospital];
+go
+
+use [Hospital];
+go
+
+create table [Departments]
+(
+	[Id] int not null identity(1, 1) primary key,
+	[Name] nvarchar(100) not null unique check ([Name] <> N'')
+);
+go
+
+create table [Doctors]
+(
+	[Id] int not null identity(1, 1) primary key,
+	[Name] nvarchar(max) not null check ([Name] <> N''),
+	[Premium] money not null check ([Premium] >= 0.0) default 0.0,
+	[Salary] money not null check ([Salary] > 0.0),
+	[Surname] nvarchar(max) not null check ([Surname] <> N'')
+);
+go
+
+create table [DoctorsSpecializations]
+(
+	[Id] int not null identity(1, 1) primary key,
+	[DoctorId] int not null,
+	[SpecializationId] int not null
+);
+go
+
+create table [Donations]
+(
+	[Id] int not null identity(1, 1) primary key,
+	[Amount] money not null check ([Amount] > 0.0),
+	[Date] date not null check ([Date] <= getdate()) default getdate(),
+	[DepartmentId] int not null,
+	[SponsorId] int not null
+);
+go
+
+create table [Specializations]
+(
+	[Id] int not null identity(1, 1) primary key,
+	[Name] nvarchar(100) not null unique check ([Name] <> N'')
+);
+go
+
+create table [Sponsors]
+(
+	[Id] int not null identity(1, 1) primary key,
+	[Name] nvarchar(100) not null unique check ([Name] <> N'')
+);
+go
+
+create table [Vacations]
+(
+	[Id] int not null identity(1, 1) primary key,
+	[EndDate] date not null,
+	[StartDate] date not null,
+	[DoctorId] int not null,
+	check ([StartDate] < [EndDate])
+);
+go
+
+create table [Wards]
+(
+	[Id] int not null identity(1, 1) primary key,
+	[Name] nvarchar(20) not null unique check([Name] <> N''),
+	[DepartmentId] int not null
+);
+go
+
+alter table [Donations]
+add foreign key ([DepartmentId]) references [Departments]([Id]);
+go
+
+alter table [Donations]
+add foreign key ([SponsorId]) references [Sponsors]([Id]);
+go
+
+alter table [DoctorsSpecializations]
+add foreign key ([DoctorId]) references [Doctors]([Id]);
+go
+
+alter table [DoctorsSpecializations]
+add foreign key (SpecializationId) references [Specializations]([Id]);
+go
+
+alter table [Vacations]
+add foreign key ([DoctorId]) references [Doctors]([Id]);
+go
+
+alter table [Wards]
+add foreign key ([DepartmentId]) references [Departments]([Id]);
+go
